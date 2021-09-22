@@ -7,13 +7,14 @@
 # If your partitioning differs, this might render your phone unbootable
 
 pkgname=linux-megous
-pkgver=5.14
+pkgver=5.15
 pkgrel=1
 pkgdesc='Linux kernel - optimized for Pinephone'
 arch=('aarch64')
 license=('GPL')
 url='https://megous.com/git'
 source=("https://xff.cz/kernels/${pkgver}/pp.tar.gz"
+        "https://github.com/dreemurrs-embedded/Jumpdrive/releases/latest/download/pine64-pinephone.img.xz"
         "git+https://megous.com/git/p-boot"
         "boot.conf"
         "fstab"
@@ -22,7 +23,8 @@ source=("https://xff.cz/kernels/${pkgver}/pp.tar.gz"
         "12-p-boot-update.hook"
         "13-p-boot-binary-update.hook")
 
-sha256sums=('2d7fc026ae9b6816bbbce6dc3a2c606b023009649b0cf30937fd249fd9cbe68b'
+sha256sums=('57de15086b3f86e990aded26cdfce5d0dc91751c0444d58796f7f5d026598c26'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -54,6 +56,9 @@ package() {
     sed -i "s#ROOTPART#${_rootpart}#" boot.conf
     sed -i "s/FSTYPE/${_fstype}/" boot.conf
     install -Dm644 boot.conf "${pkgdir}/p-boot/boot.conf"
+    install -Dm644 arch.bgra "${pkgdir}/p-boot/arch.bgra"
+    install -Dm644 jumpdrive.bgra "${pkgdir}/p-boot/jumpdrive.bgra"
+    install -Dm644 pine64-pinephone.img "${pkgdir}/p-boot/pine64-pinephone.img"
 
     cd "${srcdir}/pp-${pkgver}"
     install -Dm644 Image "${pkgdir}/p-boot/Image"
@@ -83,8 +88,8 @@ package() {
     install -Dm644 10-pp-initramfs.hook "${pkgdir}/etc/pacman.d/hooks/10-pp-initramfs.hook"
 
     # Install script and pacman hook for script to reformat boot partition - make room for p-boot.bin
-    sed -i "s#BOOTDEV#${_bootdev}#" 11-setup-boot-partition.hook
-    install -Dm644 11-setup-boot-partition.hook "${pkgdir}/etc/pacman.d/hooks/11-setup-boot-partition.hook"
+    #sed -i "s#BOOTDEV#${_bootdev}#" 11-setup-boot-partition.hook
+    #install -Dm644 11-setup-boot-partition.hook "${pkgdir}/etc/pacman.d/hooks/11-setup-boot-partition.hook"
 
     # Install pacman hook which runs p-boot-conf for boot partition
     sed -i "s#BOOTPART#${_bootpart}#" 12-p-boot-update.hook
