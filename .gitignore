@@ -2,3 +2,4 @@ src/*
 pkg/*
 p-boot/*
 *.tar.*
+*.xz

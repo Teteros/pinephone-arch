@@ -17,6 +17,8 @@ source=("https://xff.cz/kernels/${pkgver}/pp.tar.gz"
         "https://github.com/dreemurrs-embedded/Jumpdrive/releases/latest/download/pine64-pinephone.img.xz"
         "git+https://megous.com/git/p-boot"
         "boot.conf"
+        "arch.bgra"
+        "jumpdrive.bgra"
         "fstab"
         "10-pp-initramfs.hook"
         "11-setup-boot-partition.hook"
@@ -24,6 +26,8 @@ source=("https://xff.cz/kernels/${pkgver}/pp.tar.gz"
         "13-p-boot-binary-update.hook")
 
 sha256sums=('57de15086b3f86e990aded26cdfce5d0dc91751c0444d58796f7f5d026598c26'
+            'SKIP'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
